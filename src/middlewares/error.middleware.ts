@@ -11,8 +11,8 @@ const errorHandler = async (
   let error = err;
 
   if (!(error instanceof ApiError)) {
-    const statusCode = error.statusCode ?? 500;
-    const message = error.message ?? "Something went wrong";
+    const statusCode = error?.statusCode ?? 500;
+    const message = error?.message ?? "Something went wrong";
     error = new ApiError(statusCode, message, error?.errors, err.stack);
   }
 
@@ -24,7 +24,7 @@ const errorHandler = async (
       : {}),
   };
 
-  res.status(error.status).json(resonse);
+  res.status(error.statusCode).json(resonse);
 };
 
 export default errorHandler;
