@@ -9,7 +9,7 @@ const requestBodyValidator = (validationClass: any) => {
     const validateErrors = await validate(convertedObject);
 
     if (validateErrors.length === 0) {
-      next();
+      return next();
     }
     const errors: string[] = [];
     validateErrors.forEach((error) => {

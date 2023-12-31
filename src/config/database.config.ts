@@ -9,8 +9,6 @@ export const AppDataSource = new DataSource({
   database: EnvConfiguration.DB_NAME,
   synchronize: true,
   logging: true,
-  entities: [
-    `${__dirname}/../entities/*.entity.ts`,
-    `${__dirname}/../entities/**/.entity.ts`,
-  ],
+  // dropSchema:true,
+  entities: [`${__dirname}/../entities/**/*.entity.ts`],
 });

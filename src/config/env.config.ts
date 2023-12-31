@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 class EnvConfiguration{
-    static PORT = process.env.PORT;
+    static PORT = +(process.env.PORT ?? 8080);
     static NODE_ENV = process.env.NODE_ENV;
     static DB_TYPE= process.env.DB_TYPE;
     static DB_HOST=process.env.DB_HOST;
