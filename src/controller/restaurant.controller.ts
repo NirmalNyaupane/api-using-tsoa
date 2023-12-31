@@ -34,8 +34,19 @@ export class RestaurantController extends Controller {
     return await restaurantService.register(body);
   }
 
+  /**
+   * @summary get all restaurant
+   */
   @Get()
   async getAllRestaurant() {
     return await restaurantService.getAllRestaurant();
+  }
+
+
+  /**@summary get restaurant by id */
+
+  @Get(":id")
+  async getRestaruantById(@Path("id") id:string){
+    return await restaurantService.getSingleRestaurant(id);
   }
 }

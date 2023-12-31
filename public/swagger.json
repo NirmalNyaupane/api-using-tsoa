@@ -249,11 +249,44 @@
 						}
 					}
 				},
+				"summary": "get all restaurant",
 				"tags": [
 					"Restaurant"
 				],
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/restaurant/{id}": {
+			"get": {
+				"operationId": "GetRestaruantById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Omit_RestaurantEnitity.password_"
+								}
+							}
+						}
+					}
+				},
+				"summary": "get restaurant by id",
+				"tags": [
+					"Restaurant"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},

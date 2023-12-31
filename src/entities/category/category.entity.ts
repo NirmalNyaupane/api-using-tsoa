@@ -12,7 +12,7 @@ export class CategoryEntity extends CommonEnitity{
     @Column({name:"description", type:"text", nullable:false})
     readonly description:string;
 
-    @ManyToOne(()=>RestaurantEnitity, (res)=>res.categories)
+    @ManyToOne(()=>RestaurantEnitity, (res)=>res.categories,{cascade:true})
     restaurant:RestaurantEnitity
 
     @OneToMany(()=>ProductEntity, (product)=>product.category)
