@@ -17,5 +17,5 @@ export class CategoryEntity extends CommonEnitity {
   restaurant: RestaurantEnitity;
 
   @OneToMany(() => ProductEntity, (product) => product.category)
-  products: ProductEntity;
+  products: ProductEntity[];
 }

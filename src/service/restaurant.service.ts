@@ -1,6 +1,9 @@
 import ApiError from "../utils/ApiError";
 import { RestaurantEnitity } from "../entities/restaurant/restaurant.entity";
-import { RestaurantValidation } from "../validators/restaurant.validation";
+import {
+  RestaurantValidation,
+  UpdateRestaurantValidation,
+} from "../validators/restaurant.validation";
 
 class RestaurantService {
   //Insert a restaurant
@@ -28,6 +31,25 @@ class RestaurantService {
   }
 
   //update a restaurant
+  async update(id: string, payload: UpdateRestaurantValidation) {
+    const restaurant = await RestaurantEnitity.findOneBy({ id: id });
+    if (!restaurant) {
+      throw new ApiError(400, "Restaurant not found with that id");
+    }
+    // restaurant.address=payload.address;
+    // restaurant.name=payload.name;
+    // restaurant.password=payload.password;
+    // restaurant.type=payload.type;
+
+    // return await RestaurantEnitity.save(restaurant);
+
+    const response = await RestaurantEnitity.update({ id }, payload);
+    if (response.affected === 1) {
+      return { message: "Updated sucessfully" };
+    } else {
+      throw new ApiError(400, "Problem occurs");
+    }
+  }
 
   //getAllRestaurant route
   async findAll() {
@@ -47,8 +69,8 @@ class RestaurantService {
 
     if (response.affected === 1) {
       return { message: "Restaurant deleted sucessfully" };
-    }else{
-        throw new ApiError(500,"Problem occurs during the deleting restaurant");
+    } else {
+      throw new ApiError(500, "Problem occurs during the deleting restaurant");
     }
   }
 }

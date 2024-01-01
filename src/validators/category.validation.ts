@@ -11,7 +11,7 @@ export class CreateCategory {
 
   @IsNotEmpty()
   @IsUUID()
-  product_id: string;
+  restaurant_id: string;
 }
 
 export class UpdateCategory {

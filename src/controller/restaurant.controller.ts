@@ -1,10 +1,22 @@
 import express from "express";
-import { Body, Controller, Delete, Get, Middlewares, Patch, Path, Post, Request, Route, Tags } from "tsoa";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Middlewares,
+  Patch,
+  Path,
+  Post,
+  Request,
+  Route,
+  Tags,
+} from "tsoa";
 import requestBodyValidator from "../middlewares/validators.middleware";
 import restaurantService from "../service/restaurant.service";
 import {
-    RestaurantValidation,
-    UpdateRestaurantValidation,
+  RestaurantValidation,
+  UpdateRestaurantValidation,
 } from "../validators/restaurant.validation";
 
 @Route("restaurant")
@@ -19,22 +31,23 @@ export class RestaurantController extends Controller {
     return restaurantService.insert(body);
   }
 
-  @Patch()
+  @Patch(":id")
   @Middlewares(requestBodyValidator(UpdateRestaurantValidation))
   async update(
     @Request() req: express.Request,
-    @Body() body: UpdateRestaurantValidation
+    @Body() body: UpdateRestaurantValidation,
+    @Path() id: string
   ) {
-    return body;
+    return restaurantService.update(id, body);
   }
 
   @Get()
-  async getAllRestaurant(){
-    return restaurantService.findAll()
+  async getAllRestaurant() {
+    return restaurantService.findAll();
   }
 
   @Delete(":id")
-  async deleteRestaurant(@Path() id:string){
+  async deleteRestaurant(@Path() id: string) {
     return restaurantService.delete(id);
   }
 }

@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, OneToMany } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from "typeorm";
 import CommonEnitity from "..";
 import { RestaurantType } from "../../constants";
 import { CategoryEntity } from "../category/category.entity";
@@ -19,6 +19,13 @@ export class RestaurantEnitity extends CommonEnitity {
 
   @BeforeInsert()
   hashPassword() {
+    const salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync("Neio", salt);
+    this.password = hash;
+  }
+
+  @BeforeUpdate()
+  _() {
     const salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync("Neio", salt);
     this.password = hash;

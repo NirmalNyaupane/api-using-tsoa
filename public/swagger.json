@@ -78,9 +78,6 @@
 					"updatedAt": {
 						"type": "string"
 					},
-					"deletedAt": {
-						"type": "string"
-					},
 					"name": {
 						"type": "string"
 					},
@@ -107,7 +104,6 @@
 					"id",
 					"createdAt",
 					"updatedAt",
-					"deletedAt",
 					"name",
 					"email",
 					"type",
@@ -129,9 +125,6 @@
 					"updatedAt": {
 						"type": "string"
 					},
-					"deletedAt": {
-						"type": "string"
-					},
 					"name": {
 						"type": "string"
 					},
@@ -142,14 +135,16 @@
 						"$ref": "#/components/schemas/RestaurantEnitity"
 					},
 					"products": {
-						"$ref": "#/components/schemas/ProductEntity"
+						"items": {
+							"$ref": "#/components/schemas/ProductEntity"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
 					"id",
 					"createdAt",
 					"updatedAt",
-					"deletedAt",
 					"name",
 					"description",
 					"restaurant",
@@ -167,9 +162,6 @@
 						"type": "string"
 					},
 					"updatedAt": {
-						"type": "string"
-					},
-					"deletedAt": {
 						"type": "string"
 					},
 					"name": {
@@ -194,12 +186,59 @@
 					"id",
 					"createdAt",
 					"updatedAt",
-					"deletedAt",
 					"name",
 					"description",
 					"price",
 					"stock",
 					"category"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ProductValidation": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"price": {
+						"type": "string"
+					},
+					"stock": {
+						"type": "string"
+					},
+					"category_id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"description",
+					"price",
+					"stock",
+					"category_id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateCategory": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"restaurant_id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"description",
+					"restaurant_id"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -225,9 +264,6 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"deletedAt": {
-											"type": "string"
-										},
 										"updatedAt": {
 											"type": "string"
 										},
@@ -251,7 +287,6 @@
 										}
 									},
 									"required": [
-										"deletedAt",
 										"updatedAt",
 										"createdAt",
 										"id",
@@ -282,36 +317,6 @@
 					}
 				}
 			},
-			"patch": {
-				"operationId": "Update",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/UpdateRestaurantValidation"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Restaurant"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UpdateRestaurantValidation"
-							}
-						}
-					}
-				}
-			},
 			"get": {
 				"operationId": "GetAllRestaurant",
 				"responses": {
@@ -337,6 +342,53 @@
 			}
 		},
 		"/restaurant/{id}": {
+			"patch": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateRestaurantValidation"
+							}
+						}
+					}
+				}
+			},
 			"delete": {
 				"operationId": "DeleteRestaurant",
 				"responses": {
@@ -361,6 +413,190 @@
 				},
 				"tags": [
 					"Restaurant"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/product": {
+			"post": {
+				"operationId": "AddProduct",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProductEntity"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"product"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProductValidation"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllProducts",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProductEntity"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"product"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/category": {
+			"post": {
+				"operationId": "Add",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RestaurantEnitity"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"category"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateCategory"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/CategoryEntity"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"category"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/category/{id}": {
+			"get": {
+				"operationId": "GetById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/CategoryEntity"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"category"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"category"
 				],
 				"security": [],
 				"parameters": [
