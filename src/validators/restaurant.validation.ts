@@ -2,6 +2,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsStrongPassword,
   Length,
@@ -26,6 +27,26 @@ export class RestaurantValidation {
   address: string;
 
   @IsNotEmpty()
+  @IsStrongPassword()
+  @Length(8)
+  password: string;
+}
+
+export class UpdateRestaurantValidation {
+  @IsOptional()
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsEnum(RestaurantType)
+  type: RestaurantType;
+
+  @IsOptional()
+  @IsString()
+  address: string;
+
+  @IsOptional()
+  @IsString()
   @IsStrongPassword()
   @Length(8)
   password: string;

@@ -19,14 +19,12 @@ export class RestaurantEnitity extends CommonEnitity {
 
   @BeforeInsert()
   hashPassword() {
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash("Nir", salt, (err, hash) => {
-        this.password = hash;
-      });
-    });
+    const salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync("Neio", salt);
+    this.password = hash;
   }
 
-  @Column({ name: "password", nullable: false, select:false})
+  @Column({ name: "password", nullable: false, select: false })
   password: string;
 
   @OneToMany(() => CategoryEntity, (category) => category.restaurant)

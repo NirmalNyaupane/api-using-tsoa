@@ -1,52 +1,40 @@
-import {
-  Controller,
-  Route,
-  Post,
-  Request,
-  Get,
-  Tags,
-  Patch,
-  Path,
-  Query,
-  Body,
-  Middlewares,
-  SuccessResponse,
-} from "tsoa";
-
 import express from "express";
-import { RestaurantValidation } from "../validators/restaurant.validation";
+import { Body, Controller, Delete, Get, Middlewares, Patch, Path, Post, Request, Route, Tags } from "tsoa";
 import requestBodyValidator from "../middlewares/validators.middleware";
 import restaurantService from "../service/restaurant.service";
+import {
+    RestaurantValidation,
+    UpdateRestaurantValidation,
+} from "../validators/restaurant.validation";
 
 @Route("restaurant")
 @Tags("Restaurant")
 export class RestaurantController extends Controller {
-  /**
-   * @summary inserts new restaurant
-   */
   @Post()
   @Middlewares(requestBodyValidator(RestaurantValidation))
-  async registerRestaurant(
+  async register(
     @Request() req: express.Request,
     @Body() body: RestaurantValidation
   ) {
-    this.setStatus(201);
-    return await restaurantService.register(body);
+    return restaurantService.insert(body);
   }
 
-  /**
-   * @summary get all restaurant
-   */
+  @Patch()
+  @Middlewares(requestBodyValidator(UpdateRestaurantValidation))
+  async update(
+    @Request() req: express.Request,
+    @Body() body: UpdateRestaurantValidation
+  ) {
+    return body;
+  }
+
   @Get()
-  async getAllRestaurant() {
-    return await restaurantService.getAllRestaurant();
+  async getAllRestaurant(){
+    return restaurantService.findAll()
   }
 
-
-  /**@summary get restaurant by id */
-
-  @Get(":id")
-  async getRestaruantById(@Path("id") id:string){
-    return await restaurantService.getSingleRestaurant(id);
+  @Delete(":id")
+  async deleteRestaurant(@Path() id:string){
+    return restaurantService.delete(id);
   }
 }

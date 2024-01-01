@@ -38,5 +38,6 @@
     // "paths": {
     //   "custome-module": ["libs/custome-module/src/index.ts"]
     // }
+    "noEmitOnError": true
   }
 }

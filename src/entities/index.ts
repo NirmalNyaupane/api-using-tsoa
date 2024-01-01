@@ -2,16 +2,16 @@ import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, PrimaryGenerate
 
 class CommonEnitity extends BaseEntity{
     @PrimaryGeneratedColumn("uuid")
-    readonly id:string
+    id:string
 
     @CreateDateColumn({name:"created_at"})
-    readonly createdAt:string;
+    createdAt:string;
 
     @UpdateDateColumn({name:"updated_at"})
-    readonly updatedAt:string;
+    updatedAt:string;
 
     @DeleteDateColumn({name:"deleted_at"})
-    readonly deletedAt:string
+    deletedAt:string
 }
 
 export default CommonEnitity;

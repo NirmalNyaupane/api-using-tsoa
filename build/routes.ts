@@ -14,6 +14,29 @@ const models: TsoaRoute.Models = {
         "enums": ["CAFE","RESTAURANT","BOTH"],
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RestaurantValidation": {
+        "dataType": "refObject",
+        "properties": {
+            "name": {"dataType":"string","required":true},
+            "email": {"dataType":"string","required":true},
+            "type": {"ref":"RestaurantType","required":true},
+            "address": {"dataType":"string","required":true},
+            "password": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UpdateRestaurantValidation": {
+        "dataType": "refObject",
+        "properties": {
+            "name": {"dataType":"string","required":true},
+            "type": {"ref":"RestaurantType","required":true},
+            "address": {"dataType":"string","required":true},
+            "password": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "RestaurantEnitity": {
         "dataType": "refObject",
         "properties": {
@@ -62,28 +85,6 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "RestaurantValidation": {
-        "dataType": "refObject",
-        "properties": {
-            "name": {"dataType":"string","required":true},
-            "email": {"dataType":"string","required":true},
-            "type": {"ref":"RestaurantType","required":true},
-            "address": {"dataType":"string","required":true},
-            "password": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_RestaurantEnitity.Exclude_keyofRestaurantEnitity.password__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit_RestaurantEnitity.password_": {
-        "dataType": "refAlias",
-        "type": {"ref":"Pick_RestaurantEnitity.Exclude_keyofRestaurantEnitity.password__","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const validationService = new ValidationService(models);
 
@@ -96,9 +97,9 @@ export function RegisterRoutes(app: Router) {
     // ###########################################################################################################
         app.post('/restaurant',
             ...(fetchMiddlewares<RequestHandler>(RestaurantController)),
-            ...(fetchMiddlewares<RequestHandler>(RestaurantController.prototype.registerRestaurant)),
+            ...(fetchMiddlewares<RequestHandler>(RestaurantController.prototype.register)),
 
-            function RestaurantController_registerRestaurant(request: any, response: any, next: any) {
+            function RestaurantController_register(request: any, response: any, next: any) {
             const args = {
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
                     body: {"in":"body","name":"body","required":true,"ref":"RestaurantValidation"},
@@ -113,7 +114,33 @@ export function RegisterRoutes(app: Router) {
                 const controller = new RestaurantController();
 
 
-              const promise = controller.registerRestaurant.apply(controller, validatedArgs as any);
+              const promise = controller.register.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.patch('/restaurant',
+            ...(fetchMiddlewares<RequestHandler>(RestaurantController)),
+            ...(fetchMiddlewares<RequestHandler>(RestaurantController.prototype.update)),
+
+            function RestaurantController_update(request: any, response: any, next: any) {
+            const args = {
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+                    body: {"in":"body","name":"body","required":true,"ref":"UpdateRestaurantValidation"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new RestaurantController();
+
+
+              const promise = controller.update.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
@@ -144,11 +171,11 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/restaurant/:id',
+        app.delete('/restaurant/:id',
             ...(fetchMiddlewares<RequestHandler>(RestaurantController)),
-            ...(fetchMiddlewares<RequestHandler>(RestaurantController.prototype.getRestaruantById)),
+            ...(fetchMiddlewares<RequestHandler>(RestaurantController.prototype.deleteRestaurant)),
 
-            function RestaurantController_getRestaruantById(request: any, response: any, next: any) {
+            function RestaurantController_deleteRestaurant(request: any, response: any, next: any) {
             const args = {
                     id: {"in":"path","name":"id","required":true,"dataType":"string"},
             };
@@ -162,7 +189,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new RestaurantController();
 
 
-              const promise = controller.getRestaruantById.apply(controller, validatedArgs as any);
+              const promise = controller.deleteRestaurant.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
